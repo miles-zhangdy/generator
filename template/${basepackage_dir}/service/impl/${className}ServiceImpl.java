@@ -8,13 +8,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-
-
-
 
 
 import ${basepackage}.dao.I${className}Dao;
@@ -43,15 +42,15 @@ public class ${className}ServiceImpl implements I${className}Service {
 		if (req == null) {
 			return result.error("查询条件不能为空");
 		}
+		PageHelper.startPage(req.getPage(), req.getPageSize());
 
 		List<${className}> baseList = ${table.classNameFirstLower}Dao.findList(req.to${className}());
-		int totalRows = ${table.classNameFirstLower}Dao.count(req.to${className}());
-		int pageSize = req.getPageSize();
-		int totalPage = totalRows % pageSize > 0 ? totalRows / pageSize + 1 : totalRows / pageSize + 1;
+		PageInfo<${className}> pageInfo = new PageInfo<>(baseList);
+
 
 		List<${className}Resp> list = new ArrayList<${className}Resp>();
-		if (!CollectionUtils.isEmpty(baseList)) {
-			for (${className} temp : baseList) {
+		if (!CollectionUtils.isEmpty(pageInfo.getList())) {
+			for (${className} temp : pageInfo.getList()) {
 				if (temp == null) {
 					continue;
 				}
@@ -62,9 +61,9 @@ public class ${className}ServiceImpl implements I${className}Service {
 		BaseList<${className}Resp> ${table.classNameFirstLower}List = new BaseList<${className}Resp>();
 		${table.classNameFirstLower}List.setList(list);
 		${table.classNameFirstLower}List.setCurPage(req.getPage());
-		${table.classNameFirstLower}List.setPageSize(pageSize);
-		${table.classNameFirstLower}List.setTotalPage(totalPage);
-		${table.classNameFirstLower}List.setTotalRows(totalRows);
+		${table.classNameFirstLower}.setPageSize(req.getPageSize());
+		${table.classNameFirstLower}.setTotalPage(pageInfo.getPages());
+		${table.classNameFirstLower}.setTotalRows(pageInfo.getTotal());
 		return result.success(${table.classNameFirstLower}List);
 	}
 	@WriteDataSource

@@ -23,7 +23,7 @@ public class GeneratorMain {
         // g.generateByClass(Blog.class,"template_clazz");
 
         // g.deleteByTable("bbs_user", "template"); //删除生成的文件
-         g.generateByTable("user","template"); //通过数据库表生成文件,template为模板的根目录
+         g.generateByTable("channel","template"); //通过数据库表生成文件,template为模板的根目录
 
         // 打开文件夹
          Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));

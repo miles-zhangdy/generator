@@ -15,10 +15,10 @@
 	<entry key="outRoot">/generat-out</entry>
 	
 		<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://localhost:3306/ssm?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://47.111.58.136:33066/risk?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	<entry key="jdbc.username">root</entry>
-	<entry key="jdbc.password">root</entry>
+	<entry key="jdbc.password">zihebest123!</entry>
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ 可以为空-->
 	<entry key="tableRemovePrefixes">u_,m_,log_</entry>
 		

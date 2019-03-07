@@ -6,7 +6,9 @@ package ${basepackage}.dto;
 import ${basepackage}.model.${className};
 import java.util.Date;
 
+import lombok.Data;
 
+@Data
 public class Modify${className}Req  {
 
 	/**
@@ -18,15 +20,7 @@ public class Modify${className}Req  {
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
 	
-<#list table.columns as column>
-	public void set${column.columnName}(${column.javaType} ${column.columnNameLower}) {
-		this.${column.columnNameLower} = ${column.columnNameLower};
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-</#list>
+
 
 	public Modify${className}Req(){
 		

@@ -4,7 +4,9 @@ package ${basepackage}.dto;
 
 import java.util.Date;
 import ${basepackage}.model.${className};
+import lombok.Data;
 
+@Data
 public class Create${className}Req{
 
 	/**
@@ -18,18 +20,7 @@ public class Create${className}Req{
 	private ${column.javaType} ${column.columnNameLower};
 	 </#if>
 	</#list>
-	
-<#list table.columns as column>
-<#if !column.pk>
-	public void set${column.columnName}(${column.javaType} ${column.columnNameLower}) {
-		this.${column.columnNameLower} = ${column.columnNameLower};
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-	</#if>
-</#list>
+
 	
 	public Create${className}Req(){
 		

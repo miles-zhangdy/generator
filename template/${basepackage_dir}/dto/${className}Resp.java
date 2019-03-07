@@ -10,6 +10,9 @@ import java.util.Map;
 
 import ${basepackage}.model.${className};
 
+import lombok.Data;
+
+@Data
 public class ${className}Resp implements Serializable{
 
 	/**
@@ -63,16 +66,3 @@ public class ${className}Resp implements Serializable{
 
  
 }
-
-<#macro generateJavaColumns>
-	<#list table.columns as column>
-		
-	public void set${column.columnName}(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-	</#list>
-</#macro>

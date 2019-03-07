@@ -11,6 +11,9 @@ import ${basepackage}.model.${className};
 import com.zdy.util.Page;
 
 
+import lombok.Data;
+
+@Data
 public class ${className}Req extends Page {
 	/**
 	 * 
@@ -80,18 +83,3 @@ public class ${className}Req extends Page {
 	
  
 }
-
-<#macro generateJavaColumns>
-	<#list table.columns as column>
-		
-	public void set${column.columnName}(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-	
-	</#list>
-</#macro>
-

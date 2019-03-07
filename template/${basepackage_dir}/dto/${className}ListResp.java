@@ -7,6 +7,9 @@ import ${basepackage}.model.${className};
 import java.io.Serializable;
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class ${className}ListResp implements Serializable {
 
 	/**
@@ -16,12 +19,6 @@ public class ${className}ListResp implements Serializable {
 	
 	private ${className}Resp[] list;
 	
-	public ${className}Resp[] getList(){
-		return list;
-	}
-	
-	public void setList(${className}Resp[] list){
-		this.list = list;
-	}
+
 }
 

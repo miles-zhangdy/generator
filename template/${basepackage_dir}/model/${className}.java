@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.zdy.util.Page;
+import lombok.Data;
 
-
+@Data
 public class ${className} extends Page implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,28 +42,9 @@ public class ${className} extends Page implements java.io.Serializable {
 		return map;
 	}
 
-<@generateJavaColumns/>
-	public void setIds(Long[] ids){
-		this.ids = ids;
-	}
-	
-	public Long[] getIds(){
-		return this.ids;
-	}
+
 }
 
-<#macro generateJavaColumns>
-	<#list table.columns as column>
-		
-	public void set${column.columnName}(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-	</#list>
-</#macro>
 
 
 
