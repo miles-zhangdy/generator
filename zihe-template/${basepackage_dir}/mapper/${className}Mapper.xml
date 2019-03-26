@@ -1,0 +1,154 @@
+<#include "/macro.include"/>
+<#assign className = table.className>
+<#assign classNameFirstLower = table.classNameFirstLower>   
+<?xml version="1.0" encoding="UTF-8" ?>   
+    <!DOCTYPE mapper   
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
+<#macro
+namespace>${className}.</#macro>
+
+<mapper namespace="${daopackage}.I${table.className}Dao">
+
+	<resultMap id="BaseResultMap" type="${basepackage}.model.${className}">
+		<#list table.columns as column>
+		<#if column.pk>
+		<id column="${column.sqlName}" property="${column.columnNameLower}" />
+		<#else>
+		<result property="${column.columnNameLower}" column="${column.sqlName}" />
+		</#if>
+		</#list>
+	</resultMap>
+
+	<sql id="BaseColumnList">
+	    <![CDATA[
+		<#list table.columns as column>
+			${table.sqlName}.${column.sqlName} ${column.columnNameFirstLower} <#if column_has_next>,</#if>
+		</#list>
+	    ]]>
+	</sql>
+
+	<sql id="listWhere">
+		<#list table.columns as column>
+		<#if column.javaType == 'String'>
+		<if
+			test="${column.columnNameFirstLower} != null and ${column.columnNameFirstLower} != ''">
+			and ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+		</if>
+		<#else >
+		<if test="${column.columnNameFirstLower} != null ">
+			and ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+		</if>
+		</#if>
+		</#list>
+	</sql>
+
+	<insert id="save" useGeneratedKeys="true"
+		keyProperty="${table.idColumn.columnNameFirstLower}">
+		insert into
+		${table.sqlName}
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<#list table.columns as column>
+			<#if !column.pk>
+			<if test="${column.columnNameLower} != null">
+				${column.sqlName} ,
+			</if>
+			</#if>
+			</#list>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<#list table.columns as column>
+			<#if !column.pk>
+			<if test="${column.columnNameLower} != null">
+				<@mapperEl column.columnNameFirstLower /> ,
+			</if>
+			</#if>
+			</#list>
+		</trim>
+	</insert>
+
+	<select id="count" resultType="int">
+		select
+		count(*)
+		from
+		${table.sqlName}
+		<where>
+			<include refid="listWhere" />
+		</where>
+	</select>
+
+	<select id="findList" resultMap="BaseResultMap">
+		select
+		<include refid="BaseColumnList" />
+		from
+		${table.sqlName}
+		<where>
+			<include refid="listWhere" />
+		</where>
+		<if test="sortName != null ">
+			order by
+			<#list table.columns as column>
+			<if test="'${column.columnNameLower}' == sortName">
+				${column.sqlName}
+			</if>
+			</#list>
+			<if test="order != null ">
+				${"$" + "{ "+"order" + "}" }
+			</if>
+		</if>
+		<if test="beginIndex != null and pageSize != null">
+			limit <@mapperEl "beginIndex"/> , <@mapperEl "pageSize"/>
+		</if>
+	</select>
+
+	<update id="update">
+		update ${table.sqlName}
+		<set>
+			<#list table.columns as column>
+			<#if !column.pk>
+			<if test="${column.columnNameLower} != null">
+				${column.sqlName} = <@mapperEl column.columnNameFirstLower/>,
+			</if>
+			</#if>
+			</#list>
+		</set>
+		where ${table.idColumn.sqlName} = <@mapperEl
+		table.idColumn.columnNameFirstLower/>
+	</update>
+
+
+	<delete id="deleteBy${table.idColumn.columnName}" parameterType="long">
+		delete from ${table.sqlName}
+		where ${table.idColumn.sqlName} = <@mapperEl
+		table.idColumn.columnNameFirstLower/>
+	</delete>
+	<delete id="delete">
+		delete from ${table.sqlName}
+		where id in
+	</delete>
+
+
+	<#list table.columns as column>
+	<#if column.unique >
+	<select id="getBy${column.columnName}" resultMap="BaseResultMap"
+		parameterType="${column.javaType}">
+		select
+		<include refid="BaseColumnList" />
+		from
+		${table.sqlName}
+		where ${column.sqlName} = <@mapperEl column.columnNameLower/>
+	</select>
+	</#if>
+	</#list>
+	<select id="fetch" resultMap="BaseResultMap">
+		select
+		<include refid="BaseColumnList" />
+		from
+		${table.sqlName}
+		<where>
+			<include refid="listWhere" />
+		</where>
+	</select>
+</mapper>
+

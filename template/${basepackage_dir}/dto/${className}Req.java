@@ -76,8 +76,7 @@ public class ${className}Req extends Page {
 		</#list>
 		return map;
 	}
-	
-<@generateJavaColumns/>
+
 
  
 	

@@ -7,18 +7,30 @@
 		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
 	</comment>
 	
-	<entry key="basepackage">com.zdy.biz.user</entry>
-	
+	<entry key="basepackage">com.zihe.biz.product</entry>
+	<entry key="daopackage">com.zihe.dao.app</entry>
+
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
 
 	<entry key="outRoot">/generat-out</entry>
 	
 		<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://47.111.58.136:33066/risk?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
+<!--	<entry key="jdbc.url">jdbc:mysql://47.111.58.136:33066/risk?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	<entry key="jdbc.username">root</entry>
-	<entry key="jdbc.password">zihebest123!</entry>
+	<entry key="jdbc.password">zihebest123!</entry>-->
+
+
+	<entry key="jdbc.url">jdbc:mysql://localhost:3306/loan_platform?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
+	<entry key="jdbc.username">root</entry>
+	<entry key="jdbc.password">w3d56yu8r</entry>
+
+<!--	<entry key="jdbc.url">jdbc:mysql://rm-bp1y2u0lsu67rihi5no.mysql.rds.aliyuncs.com:3306/app?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
+	<entry key="jdbc.username">xianjinnormal</entry>
+	<entry key="jdbc.password">ziheyushengchan@Zh159</entry>-->
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ 可以为空-->
 	<entry key="tableRemovePrefixes">u_,m_,log_</entry>
 		

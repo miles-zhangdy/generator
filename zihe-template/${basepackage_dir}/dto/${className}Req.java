@@ -1,24 +1,25 @@
 <#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
+<#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = table.classNameLowerCase>  
 package ${basepackage}.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import ${basepackage}.model.${className};
+import com.zihe.util.Page;
+
 
 import lombok.Data;
 
 @Data
-public class ${className}Resp implements Serializable{
-
+public class ${className}Req extends Page {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	
 	<#list table.columns as column>
     /**
@@ -26,20 +27,32 @@ public class ${className}Resp implements Serializable{
      */	
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
-
-	public ${className}Resp(){
+	
+	private Long[] ids;
+	
+	public void setIds(Long[] ids){
+		this.ids = ids;
+	}
+	
+	public Long[] getIds(){
+		return this.ids;
+	}
+	
+	public ${className}Req(){
 		
 	}
 	
-	public ${className}Resp(${className}Resp ${classNameLower}Resp){
-		if(null != ${classNameLower}Resp){
+	public ${className}Req(${className}Req ${classNameLower}Req){
+		if(null != ${classNameLower}Req){
 			<#list table.columns as column>
-				this.set${column.columnName}(${classNameLower}Resp.get${column.columnName}());
+				this.set${column.columnName}(${classNameLower}Req.get${column.columnName}());
 			</#list>
+			this.setSortName(${classNameLower}Req.getSortName());
+			this.setOrder(${classNameLower}Req.getOrder());
 		}
 	}
 	
-	public ${className}Resp(${className} ${classNameLower}){
+	public ${className}Req(${className} ${classNameLower}){
 		if(null != ${classNameLower}){
 			<#list table.columns as column>
 				this.${column.columnNameLower} = ${classNameLower}.get${column.columnName}();
@@ -52,8 +65,10 @@ public class ${className}Resp implements Serializable{
 		<#list table.columns as column>
 		${classNameLower}.set${column.columnName}(this.${column.columnNameLower});
 		</#list>
+		${classNameLower}.setIds(this.ids);
 		return ${classNameLower};
 	}
+	
 	public Map<String,Object> toMap(){
 		HashMap<String, Object> map = new HashMap<>();
 		<#list table.columns as column>
@@ -62,5 +77,8 @@ public class ${className}Resp implements Serializable{
 		return map;
 	}
 
+
+ 
+	
  
 }
